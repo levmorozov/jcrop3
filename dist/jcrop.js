@@ -1,2 +1,1674 @@
-var Jcrop=function(t){var e={};function n(r){if(e[r])return e[r].exports;var i=e[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,n),i.l=!0,i.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)n.d(r,i,function(e){return t[e]}.bind(null,i));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=12)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(){var t={};for(var e in arguments){var n=arguments[e];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(t[r]=n[r])}return t}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var i=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),"string"==typeof e&&(e=document.getElementById(e)),this.el=e}return r(t,[{key:"appendTo",value:function(t){return"string"==typeof t&&(t=document.getElementById(t)),t.appendChild(this.el),this}},{key:"emit",value:function(t){var e=document.createEvent("Event");e.initEvent(t,!0,!0),e.cropTarget=this,this.el.dispatchEvent(e)}},{key:"removeClass",value:function(t){return this.el.className=this.el.className.split(" ").filter(function(e){return t!==e}).join(" "),this}},{key:"hasClass",value:function(t){return this.el.className.split(" ").filter(function(e){return t===e}).length}},{key:"addClass",value:function(t){return this.hasClass(t)||(this.el.className+=" "+t),this}},{key:"listen",value:function(t,e){return this.el.addEventListener(t,function(t){return e(t.cropTarget,t)}),this}}]),t}();e.default=i},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var i=function(){function t(){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.x=0,this.y=0,this.w=0,this.h=0}return r(t,[{key:"round",value:function(){return t.create(Math.round(this.x),Math.round(this.y),Math.round(this.w),Math.round(this.h))}},{key:"normalize",value:function(){var e=[Math.min(this.x,this.x2),Math.min(this.y,this.y2),Math.max(this.x,this.x2),Math.max(this.y,this.y2)],n=e[0],r=e[1],i=e[2],o=e[3];return t.create(n,r,i-n,o-r)}},{key:"rebound",value:function(t,e){var n=this.normalize();return n.x<0&&(n.x=0),n.y<0&&(n.y=0),n.x2>t&&(n.x=t-n.w),n.y2>e&&(n.y=e-n.h),n}},{key:"scale",value:function(e,n){return n=n||e,t.create(this.x*e,this.y*n,this.w*e,this.h*n)}},{key:"unscale",value:function(e,n){return n=n||e,t.create(this.x/e,this.y/n,this.w/e,this.h/n)}},{key:"center",value:function(e,n){return t.create((e-this.w)/2,(n-this.h)/2,this.w,this.h)}},{key:"toArray",value:function(){return[this.x,this.y,this.w,this.h]}},{key:"x1",set:function(t){this.w=this.x2-t,this.x=t}},{key:"y1",set:function(t){this.h=this.y2-t,this.y=t}},{key:"x2",get:function(){return this.x+this.w},set:function(t){this.w=t-this.x}},{key:"y2",get:function(){return this.y+this.h},set:function(t){this.h=t-this.y}},{key:"aspect",get:function(){return this.w/this.h}}]),t}();i.fromPoints=function(t,e){var n=[Math.min(t[0],e[0]),Math.min(t[1],e[1]),Math.max(t[0],e[0]),Math.max(t[1],e[1])],r=n[0],o=n[1],a=n[2],s=n[3];return i.create(r,o,a-r,s-o)},i.create=function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:0,r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:0,o=new i;return o.x=t,o.y=e,o.w=n,o.h=r,o},i.from=function(t){if(Array.isArray(t))return i.fromArray(t);var e=new i;return e.x=t.offsetLeft,e.y=t.offsetTop,e.w=t.offsetWidth,e.h=t.offsetHeight,e},i.fromArray=function(t){if(4===t.length)return i.create.apply(this,t);if(2===t.length)return i.fromPoints(t[0],t[1]);throw new Error("fromArray method problem")},i.sizeOf=function(t,e){if(e)return i.create(0,0,t,e);var n=new i;return n.w=t.offsetWidth,n.h=t.offsetHeight,n},i.getMax=function(t,e,n){return t/e>n?[e*n,e]:[t,t/n]},i.fromPoint=function(t,e,n){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"br",o=new i;switch(o.x=t[0],o.y=t[1],r){case"br":o.x2=o.x+e,o.y2=o.y+n;break;case"bl":o.x2=o.x-e,o.y2=o.y+n;break;case"tl":o.x2=o.x-e,o.y2=o.y-n;break;case"tr":o.x2=o.x+e,o.y2=o.y-n}return o},e.default=i},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={animateEasingFunction:"swing",animateFrames:30,multi:!1,multiMax:null,multiMin:1,cropperClass:"jcrop-widget",disabledClass:"jcrop-disable",canDrag:!0,canResize:!0,canSelect:!0,canRemove:!0,multiple:!1,autoFront:!0,active:!0,handles:["n","s","e","w","sw","nw","ne","se"],shade:!0,shadeClass:"jcrop-shade",shadeColor:"black",shadeOpacity:.5,widgetConstructor:null,x:0,y:0,w:100,h:100}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});e.default=function(t,e,n,r){var i,o;function a(t){var n="touchstart"===t.type?t.touches[0]:t;i=n.pageX,o=n.pageY,t.preventDefault(),t.stopPropagation(),e(i,o,n)&&("mousedown"===t.type?(window.addEventListener("mousemove",s),document.addEventListener("mouseup",u)):"touchstart"===t.type&&(document.addEventListener("touchmove",s),document.addEventListener("touchend",u)))}function s(t){var e="touchmove"===t.type?t.changedTouches[0]:t;t.stopPropagation(),n(e.pageX-i,e.pageY-o)}function u(t){var e="touchend"===t.type?t.changedTouches[0]:t;e.pageX&&e.pageY&&n(e.pageX-i,e.pageY-o),document.removeEventListener("mouseup",u),window.removeEventListener("mousemove",s),document.removeEventListener("touchmove",s),document.removeEventListener("touchend",u),r()}return"string"==typeof t&&(t=document.getElementById(t)),t.addEventListener("mousedown",a),t.addEventListener("touchstart",a),{remove:function(){t.removeEventListener("mousedown",a),t.removeEventListener("touchstart",a)}}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){return function(t,e){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,e){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=t[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!e||n.length!==e);r=!0);}catch(t){i=!0,o=t}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=function(t){return t&&t.__esModule?t:{default:t}}(n(2));var a=function(){function t(e,n,r,i){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.sw=n,this.sh=r,this.rect=e,this.locked=this.getCornerPoint(this.getOppositeCorner(i)),this.stuck=this.getCornerPoint(i)}return i(t,[{key:"move",value:function(t,e){return o.default.fromPoints(this.locked,this.translateStuckPoint(t,e))}},{key:"getDragQuadrant",value:function(t,e){var n=this.locked[0]-t,r=this.locked[1]-e;return n<0&&r<0?"br":n>=0&&r>=0?"tl":n<0&&r>=0?"tr":"bl"}},{key:"getMaxRect",value:function(t,e,n){return o.default.getMax(Math.abs(this.locked[0]-t),Math.abs(this.locked[1]-e),n)}},{key:"translateStuckPoint",value:function(t,e){var n=r(this.stuck,3),i=n[0],a=n[1],s=n[2],u=null===i?s:i+t,c=null===a?s:a+e;if(u>this.sw&&(u=this.sw),c>this.sh&&(c=this.sh),u<0&&(u=0),c<0&&(c=0),this.aspect){var f=this.getMaxRect(u,c,this.aspect),l=r(f,2),h=l[0],d=l[1],p=this.getDragQuadrant(u,c),v=o.default.fromPoint(this.locked,h,d,p);return[v.x2,v.y2]}return[u,c]}},{key:"getCornerPoint",value:function(t){var e=this.rect;switch(t){case"n":return[null,e.y,e.x];case"s":return[null,e.y2,e.x2];case"e":return[e.x2,null,e.y2];case"w":return[e.x,null,e.y];case"se":return[e.x2,e.y2];case"sw":return[e.x,e.y2];case"ne":return[e.x2,e.y];case"nw":return[e.x,e.y]}}},{key:"getOppositeCorner",value:function(t){switch(t){case"n":return"se";case"s":case"e":return"nw";case"w":return"se";case"se":return"nw";case"sw":return"ne";case"ne":return"sw";case"nw":return"se"}}}]),t}();a.create=function(t,e,n,r){return new a(t,e,n,r)},e.default=a},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=f(n(0)),o=f(n(7)),a=f(n(11)),s=f(n(4)),u=f(n(9)),c=f(n(5));function f(t){return t&&t.__esModule?t:{default:t}}var l=function(t){function e(t,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,n));return r.scalex=1,r.scaley=1,r.crops=new Set,r.active=null,r.enabled=!0,r.init(),r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,u.default),r(e,[{key:"init",value:function(){this.initStageDrag(),a.default.Manager.attach(this)}},{key:"initOptions",value:function(){var t=this;this._optconf.multi=function(e){e||t.limitWidgets()}}},{key:"setEnabled",value:function(){var t=!(arguments.length>0&&void 0!==arguments[0])||arguments[0],e=this.options.disabledClass||"jcrop-disable";return this[t?"removeClass":"addClass"](e),this.enabled=!!t,this}},{key:"focus",value:function(){return!!this.enabled&&(this.active?this.active.el.focus():this.el.focus(),this)}},{key:"limitWidgets",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:1;if(!this.crops||t<1)return!1;for(var e=Array.from(this.crops);e.length>t;)this.removeWidget(e.shift());return this}},{key:"canCreate",value:function(){var t=this.crops.size,e=this.options;return!!this.enabled&&(!(null!==e.multiMax&&t>=e.multiMax)&&!(!e.multi&&t>=e.multiMin))}},{key:"canRemove",value:function(){var t=this.crops.size,e=this.options;return!!this.enabled&&(!(this.active&&!this.active.options.canRemove)&&!(!e.canRemove||t<=e.multiMin))}},{key:"initStageDrag",value:function(){var t,e,n,r,i,a=this;(0,s.default)(this.el,function(s,u,f){return!!a.canCreate()&&(t=(a.options.widgetConstructor||o.default).create(a.options),(e=t.pos).x=f.pageX-a.el.offsetParent.offsetLeft-a.el.offsetLeft,e.y=f.pageY-a.el.offsetParent.offsetTop-a.el.offsetTop,n=a.el.offsetWidth,r=a.el.offsetHeight,a.addWidget(t),i=c.default.create(e,n,r,"se"),a.options.aspectRatio&&(i.aspect=a.options.aspectRatio),t.render(e),a.focus(),!0)},function(e,n){t.render(i.move(e,n))},function(){t.emit("crop.change")})}},{key:"reorderWidgets",value:function(){var t=this,e=10;this.crops.forEach(function(n){n.el.style.zIndex=e++,t.active===n?n.addClass("active"):n.removeClass("active")}),this.refresh()}},{key:"activate",value:function(t){if(!this.enabled)return this;if(t=t||Array.from(this.crops).pop()){if(this.active===t)return;this.active=t,this.crops.delete(t),this.crops.add(t),this.reorderWidgets(),this.active.el.focus(),this.options.shade&&this.shades.enable(),t.emit("crop.activate")}else this.shades.disable();return this}},{key:"addWidget",value:function(t){return t.attachToStage(this),t.appendTo(this.el),this.activate(t),this}},{key:"newWidget",value:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};e=(0,i.default)({},this.options,e);var n=(this.options.widgetConstructor||o.default).create(e);return n.render(t.unscale(this.scalex,this.scaley)),this.addWidget(n),n.el.focus(),n}},{key:"removeWidget",value:function(t){if(!this.canRemove())return!1;t.emit("crop.remove"),t.el.remove(),this.crops.delete(t),this.activate()}},{key:"refresh",value:function(){this.crops.forEach(function(t){t.render()}),this.options.shade&&this.active&&this.shades.adjust(this.active.pos)}},{key:"updateShades",value:function(){if(this.shades)return this.options.shade?this.shades.enable():this.shades.disable(),this.options.shade&&this.active&&this.shades.adjust(this.active.pos),this}},{key:"setOptions",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};(function t(e,n,r){null===e&&(e=Function.prototype);var i=Object.getOwnPropertyDescriptor(e,n);if(void 0===i){var o=Object.getPrototypeOf(e);return null===o?void 0:t(o,n,r)}if("value"in i)return i.value;var a=i.get;return void 0!==a?a.call(r):void 0})(e.prototype.__proto__||Object.getPrototypeOf(e.prototype),"setOptions",this).call(this,t),this.crops&&Array.from(this.crops).forEach(function(e){return e.setOptions(t)})}},{key:"destroy",value:function(){}}]),e}();e.default=l},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){return function(t,e){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,e){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=t[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!e||n.length!==e);r=!0);}catch(t){i=!0,o=t}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=p(n(0)),a=p(n(8)),s=p(n(3)),u=p(n(4)),c=p(n(2)),f=p(n(5)),l=p(n(9)),h=p(n(13)),d=p(n(14));function p(t){return t&&t.__esModule?t:{default:t}}var v=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t,n));return r.pos=c.default.from(r.el),r.init(),r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,l.default),i(e,[{key:"init",value:function(){return this.createHandles(),this.createMover(),this.attachFocus(),h.default.attach(this),this}},{key:"initOptions",value:function(){var t=this;this._optconf.aspectRatio=function(e){var n=t.pos;if(t.aspect=e||null,t.aspect&&n){var i=c.default.getMax(n.w,n.h,e),o=r(i,2),a=o[0],s=o[1];t.render(c.default.fromPoint([n.x,n.y],a,s))}}}},{key:"attachToStage",value:function(t){this.stage=t,this.emit("crop.attach")}},{key:"attachFocus",value:function(){var t=this;this.el.addEventListener("focus",function(e){t.stage.activate(t),t.emit("crop.update")},!1)}},{key:"animate",value:function(t,e,n){var r=this,i=this;return n=n||i.options.animateEasingFunction||"swing",e=e||i.options.animateFrames||30,(0,d.default)(i.el,i.pos,t,function(t){return i.render(t.normalize())},e,n).then(function(){return r.emit("crop.change")})}},{key:"createMover",value:function(){var t,e,n,r=this;this.pos=c.default.from(this.el),(0,u.default)(this.el,function(){var i=r.el.parentElement;if(!r.stage.enabled)return!1;var o=[i.offsetWidth,i.offsetHeight];return t=o[0],e=o[1],n=c.default.from(r.el),r.el.focus(),r.stage.activate(r),!0},function(i,o){r.pos.x=n.x+i,r.pos.y=n.y+o,r.render(r.pos.rebound(t,e))},function(){r.emit("crop.change")})}},{key:"nudge",value:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,n=this.el.parentElement,r=[n.offsetWidth,n.offsetHeight],i=r[0],o=r[1];t&&(this.pos.x+=t),e&&(this.pos.y+=e),this.render(this.pos.rebound(i,o)),this.emit("crop.change")}},{key:"createHandles",value:function(){var t=this;return this.options.handles.forEach(function(e){var n,r=a.default.create("jcrop-handle "+e);r.appendTo(t.el),(0,u.default)(r.el,function(){if(!t.stage.enabled)return!1;var r=t.el.parentElement,i=r.offsetWidth,o=r.offsetHeight;return n=f.default.create(c.default.from(t.el),i,o,e),t.aspect&&(n.aspect=t.aspect),t.el.focus(),t.emit("crop.active"),!0},function(e,r){return t.render(n.move(e,r))},function(){t.emit("crop.change")})}),this}},{key:"isActive",value:function(){return this.stage&&this.stage.active===this}},{key:"render",value:function(t){return t=t||this.pos,this.el.style.top=Math.round(t.y)+"px",this.el.style.left=Math.round(t.x)+"px",this.el.style.width=Math.round(t.w)+"px",this.el.style.height=Math.round(t.h)+"px",this.pos=t,this.emit("crop.update"),this}},{key:"doneDragging",value:function(){this.pos=c.default.from(this.el)}},{key:"sel",get:function(){var t=this.stage;return this.pos.scale(t.scalex,t.scaley)}}]),e}();v.create=function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},e=document.createElement("div"),n=(0,o.default)({},s.default,t);return e.setAttribute("tabindex","0"),e.className=n.cropperClass||"jcrop-widget",new(t.widgetConstructor||v)(e,n)},e.default=v},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(t){return t&&t.__esModule?t:{default:t}}(n(1));var i=function(t){function e(){return function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e),function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).apply(this,arguments))}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,r.default),e}();i.create=function(t){var e=document.createElement("div");return e.className=t,new i(e)},e.default=i},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=s(n(0)),o=s(n(1)),a=s(n(3));function s(t){return t&&t.__esModule?t:{default:t}}var u=function(t){function e(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,t));return r.options={},Object.defineProperty(r,"_optconf",{configurable:!1,enumerable:!1,value:{},writable:!0}),r.initOptions(),r.setOptions((0,i.default)({},a.default,n)),r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),r(e,[{key:"setOptions",value:function(t){var e=this;return this.options=(0,i.default)({},this.options,t),Object.keys(t).forEach(function(n){e._optconf[n]&&e._optconf[n](t[n])}),this}},{key:"initOptions",value:function(){}}]),e}();e.default=u},function(t,e,n){"use strict";var r=t.exports={def:"outQuad",swing:function(t,e,n,i){return r[r.def](t,e,n,i)},inQuad:function(t,e,n,r){return n*(t/=r)*t+e},outQuad:function(t,e,n,r){return-n*(t/=r)*(t-2)+e},inOutQuad:function(t,e,n,r){return(t/=r/2)<1?n/2*t*t+e:-n/2*(--t*(t-2)-1)+e},inCubic:function(t,e,n,r){return n*(t/=r)*t*t+e},outCubic:function(t,e,n,r){return n*((t=t/r-1)*t*t+1)+e},inOutCubic:function(t,e,n,r){return(t/=r/2)<1?n/2*t*t*t+e:n/2*((t-=2)*t*t+2)+e},inQuart:function(t,e,n,r){return n*(t/=r)*t*t*t+e},outQuart:function(t,e,n,r){return-n*((t=t/r-1)*t*t*t-1)+e},inOutQuart:function(t,e,n,r){return(t/=r/2)<1?n/2*t*t*t*t+e:-n/2*((t-=2)*t*t*t-2)+e},inQuint:function(t,e,n,r){return n*(t/=r)*t*t*t*t+e},outQuint:function(t,e,n,r){return n*((t=t/r-1)*t*t*t*t+1)+e},inOutQuint:function(t,e,n,r){return(t/=r/2)<1?n/2*t*t*t*t*t+e:n/2*((t-=2)*t*t*t*t+2)+e},inSine:function(t,e,n,r){return-n*Math.cos(t/r*(Math.PI/2))+n+e},outSine:function(t,e,n,r){return n*Math.sin(t/r*(Math.PI/2))+e},inOutSine:function(t,e,n,r){return-n/2*(Math.cos(Math.PI*t/r)-1)+e},inExpo:function(t,e,n,r){return 0==t?e:n*Math.pow(2,10*(t/r-1))+e},outExpo:function(t,e,n,r){return t==r?e+n:n*(1-Math.pow(2,-10*t/r))+e},inOutExpo:function(t,e,n,r){return 0==t?e:t==r?e+n:(t/=r/2)<1?n/2*Math.pow(2,10*(t-1))+e:n/2*(2-Math.pow(2,-10*--t))+e},inCirc:function(t,e,n,r){return-n*(Math.sqrt(1-(t/=r)*t)-1)+e},outCirc:function(t,e,n,r){return n*Math.sqrt(1-(t=t/r-1)*t)+e},inOutCirc:function(t,e,n,r){return(t/=r/2)<1?-n/2*(Math.sqrt(1-t*t)-1)+e:n/2*(Math.sqrt(1-(t-=2)*t)+1)+e},inElastic:function(t,e,n,r){var i=1.70158,o=0,a=n;if(0==t)return e;if(1==(t/=r))return e+n;if(o||(o=.3*r),a<Math.abs(n)){a=n;i=o/4}else i=o/(2*Math.PI)*Math.asin(n/a);return-a*Math.pow(2,10*(t-=1))*Math.sin((t*r-i)*(2*Math.PI)/o)+e},outElastic:function(t,e,n,r){var i=1.70158,o=0,a=n;if(0==t)return e;if(1==(t/=r))return e+n;if(o||(o=.3*r),a<Math.abs(n)){a=n;i=o/4}else i=o/(2*Math.PI)*Math.asin(n/a);return a*Math.pow(2,-10*t)*Math.sin((t*r-i)*(2*Math.PI)/o)+n+e},inOutElastic:function(t,e,n,r){var i=1.70158,o=0,a=n;if(0==t)return e;if(2==(t/=r/2))return e+n;if(o||(o=r*(.3*1.5)),a<Math.abs(n)){a=n;i=o/4}else i=o/(2*Math.PI)*Math.asin(n/a);return t<1?a*Math.pow(2,10*(t-=1))*Math.sin((t*r-i)*(2*Math.PI)/o)*-.5+e:a*Math.pow(2,-10*(t-=1))*Math.sin((t*r-i)*(2*Math.PI)/o)*.5+n+e},inBack:function(t,e,n,r,i){return void 0==i&&(i=1.70158),n*(t/=r)*t*((i+1)*t-i)+e},outBack:function(t,e,n,r,i){return void 0==i&&(i=1.70158),n*((t=t/r-1)*t*((i+1)*t+i)+1)+e},inOutBack:function(t,e,n,r,i){return void 0==i&&(i=1.70158),(t/=r/2)<1?n/2*(t*t*((1+(i*=1.525))*t-i))+e:n/2*((t-=2)*t*((1+(i*=1.525))*t+i)+2)+e},inBounce:function(t,e,n,i){return n-r.outBounce(i-t,0,n,i)+e},outBounce:function(t,e,n,r){return(t/=r)<1/2.75?n*(7.5625*t*t)+e:t<2/2.75?n*(7.5625*(t-=1.5/2.75)*t+.75)+e:t<2.5/2.75?n*(7.5625*(t-=2.25/2.75)*t+.9375)+e:n*(7.5625*(t-=2.625/2.75)*t+.984375)+e},inOutBounce:function(t,e,n,i){return t<i/2?.5*r.inBounce(2*t,0,n,i)+e:.5*r.outBounce(2*t-i,0,n,i)+.5*n+e}}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),i=a(n(2)),o=a(n(1));function a(t){return t&&t.__esModule?t:{default:t}}function s(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}var u=function(){function t(e){s(this,t),"string"==typeof e&&(e=document.getElementById(e)),this.el=e,this.shades={}}return r(t,[{key:"init",value:function(){var t=this,e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};this.active=void 0===e.shade||e.shade,this.keys().forEach(function(n){t.shades[n]=c.create(e,n)}),this.el.addEventListener("crop.update",function(e){e.cropTarget.isActive()&&e.cropTarget.options.shade&&t.adjust(e.cropTarget.pos)},!1),this.enable()}},{key:"adjust",value:function(t){var e=i.default.from(this.el),n=this.shades;n.t.h=t.y,n.b.h=e.h-t.y2,n.t.w=n.b.w=Math.floor(t.w),n.l.w=n.t.x=n.b.x=Math.ceil(t.x),n.r.w=e.w-(Math.ceil(t.x)+Math.floor(t.w))}},{key:"keys",value:function(){return["t","l","r","b"]}},{key:"enable",value:function(){var t=this,e=this.shades;this.keys().forEach(function(n){return e[n].insert(t.el)})}},{key:"disable",value:function(){var t=this.shades;this.keys().forEach(function(e){return t[e].remove()})}},{key:"setStyle",value:function(t,e){var n=this.shades;this.keys().forEach(function(r){return n[r].color(t).opacity(e)})}}]),t}();u.attach=function(t){var e=t.el,n=new u(e);return n.init(t.options),t.shades=n,t._optconf.shade=function(e){return t.updateShades()},t._optconf.shadeColor=function(t){return n.setStyle(t)},t._optconf.shadeOpacity=function(t){return n.setStyle(null,t)},n};var c=function(t){function e(){return s(this,e),function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).apply(this,arguments))}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),r(e,[{key:"insert",value:function(t){t.appendChild(this.el)}},{key:"remove",value:function(){this.el.remove()}},{key:"color",value:function(t){return t&&(this.el.style.backgroundColor=t),this}},{key:"opacity",value:function(t){return t&&(this.el.style.opacity=t),this}},{key:"w",set:function(t){this.el.style.width=t+"px"}},{key:"h",set:function(t){this.el.style.height=t+"px"}},{key:"x",set:function(t){this.el.style.left=t+"px"}}]),e}();c.create=function(t,e){var n=document.createElement("div"),r=t.shadeClass||"jcrop-shade";return n.className=r+" "+e,new c(n).color(t.shadeColor).opacity(t.shadeOpacity)},c.Manager=u,e.default=c},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.DomObj=e.Shade=e.load=e.easing=e.Sticker=e.Handle=e.Rect=e.Widget=e.Dragger=e.defaults=e.Stage=void 0,e.attach=b;var r=y(n(0)),i=y(n(3)),o=y(n(6)),a=y(n(15)),s=y(n(7)),u=y(n(11)),c=y(n(8)),f=y(n(4)),l=y(n(2)),h=y(n(5)),d=y(n(1)),p=y(n(10)),v=y(n(18));function y(t){return t&&t.__esModule?t:{default:t}}function b(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return e=(0,r.default)({},i.default,e),"string"==typeof t&&(t=document.getElementById(t)),"IMG"===t.tagName?new a.default(t,e):new o.default(t,e)}e.Stage=o.default,e.defaults=i.default,e.Dragger=f.default,e.Widget=s.default,e.Rect=l.default,e.Handle=c.default,e.Sticker=h.default,e.easing=p.default,e.load=v.default,e.Shade=u.default,e.DomObj=d.default,e.default={Stage:o.default,defaults:i.default,Dragger:f.default,Widget:s.default,Rect:l.default,Handle:c.default,Sticker:h.default,easing:p.default,load:v.default,attach:b,Shade:u.default,DomObj:d.default}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var i=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.widget=e,this.attach()}return r(t,[{key:"attach",value:function(){var t=this.widget;t.el.addEventListener("keydown",function(e){var n=e.shiftKey?10:1;switch(e.key){case"ArrowRight":t.nudge(n);break;case"ArrowLeft":t.nudge(-n);break;case"ArrowUp":t.nudge(0,-n);break;case"ArrowDown":t.nudge(0,n);break;case"Delete":case"Backspace":t.stage.removeWidget(t);break;default:return}e.preventDefault()})}}]),t}();i.attach=function(t){return new i(t)},e.default=i},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(t){return t&&t.__esModule?t:{default:t}}(n(10));e.default=function(t,e,n,i){var o=arguments.length>4&&void 0!==arguments[4]?arguments[4]:30,a=arguments.length>5&&void 0!==arguments[5]?arguments[5]:"swing",s=["x","y","w","h"],u=e.normalize();a="string"==typeof a?r.default[a]:a;var c=0;return new Promise(function(t,r){requestAnimationFrame(function r(){c<o?(s.forEach(function(t){u[t]=Math.round(a(c,e[t],n[t]-e[t],o))}),i(u),c++,requestAnimationFrame(r)):(i(n),t())})})}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){return function(t,e){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return function(t,e){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=t[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!e||n.length!==e);r=!0);}catch(t){i=!0,o=t}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),i=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}(),o=s(n(6)),a=s(n(16));function s(t){return t&&t.__esModule?t:{default:t}}var u=function(t){function e(t,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,e);var r=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:document.createElement("div");return e.className=t,e}("jcrop-stage jcrop-image-stage");t.parentNode.insertBefore(r,t);var i=function(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!e||"object"!=typeof e&&"function"!=typeof e?t:e}(this,(e.__proto__||Object.getPrototypeOf(e)).call(this,r,n));return i.srcEl=t,t.onload=i.resizeToImage.bind(i),i.resizeToImage(),i.initResizeObserver(),i}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,o.default),i(e,[{key:"initResizeObserver",value:function(){var t=this;new a.default(function(e,n){t.resizeToImage()}).observe(this.srcEl)}},{key:"resizeToImage",value:function(){var t=this.getImageDimensions(),e=r(t,2),n=e[0],i=e[1],o=this.getNaturalDimensions(),a=r(o,2),s=a[0],u=a[1];this.el.style.width=n+"px",this.el.style.height=i+"px",this.rescaleWidgets(n/s,i/u),this.scalex=s/n,this.scaley=u/i,this.refresh()}},{key:"rescaleWidgets",value:function(t,e){this.crops.forEach(function(n){n.pos=n.sel.scale(t,e)})}},{key:"getImageDimensions",value:function(){return[this.srcEl.width,this.srcEl.height]}},{key:"getNaturalDimensions",value:function(){return[this.srcEl.naturalWidth||this.srcEl.width,this.srcEl.naturalHeight||this.srcEl.height]}},{key:"destroy",value:function(){this.el.remove()}}]),e}();e.default=u},function(t,e,n){"use strict";n.r(e),function(t){var n=function(){if("undefined"!=typeof Map)return Map;function t(t,e){var n=-1;return t.some(function(t,r){return t[0]===e&&(n=r,!0)}),n}return function(){function e(){this.__entries__=[]}var n={size:{configurable:!0}};return n.size.get=function(){return this.__entries__.length},e.prototype.get=function(e){var n=t(this.__entries__,e),r=this.__entries__[n];return r&&r[1]},e.prototype.set=function(e,n){var r=t(this.__entries__,e);~r?this.__entries__[r][1]=n:this.__entries__.push([e,n])},e.prototype.delete=function(e){var n=this.__entries__,r=t(n,e);~r&&n.splice(r,1)},e.prototype.has=function(e){return!!~t(this.__entries__,e)},e.prototype.clear=function(){this.__entries__.splice(0)},e.prototype.forEach=function(t,e){void 0===e&&(e=null);for(var n=0,r=this.__entries__;n<r.length;n+=1){var i=r[n];t.call(e,i[1],i[0])}},Object.defineProperties(e.prototype,n),e}()}(),r="undefined"!=typeof window&&"undefined"!=typeof document&&window.document===document,i=void 0!==t&&t.Math===Math?t:"undefined"!=typeof self&&self.Math===Math?self:"undefined"!=typeof window&&window.Math===Math?window:Function("return this")(),o="function"==typeof requestAnimationFrame?requestAnimationFrame.bind(i):function(t){return setTimeout(function(){return t(Date.now())},1e3/60)},a=2,s=["top","right","bottom","left","width","height","size","weight"],u="undefined"!=typeof MutationObserver,c=function(){this.connected_=!1,this.mutationEventsAdded_=!1,this.mutationsObserver_=null,this.observers_=[],this.onTransitionEnd_=this.onTransitionEnd_.bind(this),this.refresh=function(t,e){var n=!1,r=!1,i=0;function s(){n&&(n=!1,t()),r&&c()}function u(){o(s)}function c(){var t=Date.now();if(n){if(t-i<a)return;r=!0}else n=!0,r=!1,setTimeout(u,e);i=t}return c}(this.refresh.bind(this),20)};c.prototype.addObserver=function(t){~this.observers_.indexOf(t)||this.observers_.push(t),this.connected_||this.connect_()},c.prototype.removeObserver=function(t){var e=this.observers_,n=e.indexOf(t);~n&&e.splice(n,1),!e.length&&this.connected_&&this.disconnect_()},c.prototype.refresh=function(){this.updateObservers_()&&this.refresh()},c.prototype.updateObservers_=function(){var t=this.observers_.filter(function(t){return t.gatherActive(),t.hasActive()});return t.forEach(function(t){return t.broadcastActive()}),t.length>0},c.prototype.connect_=function(){r&&!this.connected_&&(document.addEventListener("transitionend",this.onTransitionEnd_),window.addEventListener("resize",this.refresh),u?(this.mutationsObserver_=new MutationObserver(this.refresh),this.mutationsObserver_.observe(document,{attributes:!0,childList:!0,characterData:!0,subtree:!0})):(document.addEventListener("DOMSubtreeModified",this.refresh),this.mutationEventsAdded_=!0),this.connected_=!0)},c.prototype.disconnect_=function(){r&&this.connected_&&(document.removeEventListener("transitionend",this.onTransitionEnd_),window.removeEventListener("resize",this.refresh),this.mutationsObserver_&&this.mutationsObserver_.disconnect(),this.mutationEventsAdded_&&document.removeEventListener("DOMSubtreeModified",this.refresh),this.mutationsObserver_=null,this.mutationEventsAdded_=!1,this.connected_=!1)},c.prototype.onTransitionEnd_=function(t){var e=t.propertyName;void 0===e&&(e=""),s.some(function(t){return!!~e.indexOf(t)})&&this.refresh()},c.getInstance=function(){return this.instance_||(this.instance_=new c),this.instance_},c.instance_=null;var f=function(t,e){for(var n=0,r=Object.keys(e);n<r.length;n+=1){var i=r[n];Object.defineProperty(t,i,{value:e[i],enumerable:!1,writable:!1,configurable:!0})}return t},l=function(t){return t&&t.ownerDocument&&t.ownerDocument.defaultView||i},h=m(0,0,0,0);function d(t){return parseFloat(t)||0}function p(t){for(var e=[],n=arguments.length-1;n-- >0;)e[n]=arguments[n+1];return e.reduce(function(e,n){return e+d(t["border-"+n+"-width"])},0)}function v(t){var e=t.clientWidth,n=t.clientHeight;if(!e&&!n)return h;var r=l(t).getComputedStyle(t),i=function(t){for(var e={},n=0,r=["top","right","bottom","left"];n<r.length;n+=1){var i=r[n],o=t["padding-"+i];e[i]=d(o)}return e}(r),o=i.left+i.right,a=i.top+i.bottom,s=d(r.width),u=d(r.height);if("border-box"===r.boxSizing&&(Math.round(s+o)!==e&&(s-=p(r,"left","right")+o),Math.round(u+a)!==n&&(u-=p(r,"top","bottom")+a)),!function(t){return t===l(t).document.documentElement}(t)){var c=Math.round(s+o)-e,f=Math.round(u+a)-n;1!==Math.abs(c)&&(s-=c),1!==Math.abs(f)&&(u-=f)}return m(i.left,i.top,s,u)}var y="undefined"!=typeof SVGGraphicsElement?function(t){return t instanceof l(t).SVGGraphicsElement}:function(t){return t instanceof l(t).SVGElement&&"function"==typeof t.getBBox};function b(t){return r?y(t)?function(t){var e=t.getBBox();return m(0,0,e.width,e.height)}(t):v(t):h}function m(t,e,n,r){return{x:t,y:e,width:n,height:r}}var g=function(t){this.broadcastWidth=0,this.broadcastHeight=0,this.contentRect_=m(0,0,0,0),this.target=t};g.prototype.isActive=function(){var t=b(this.target);return this.contentRect_=t,t.width!==this.broadcastWidth||t.height!==this.broadcastHeight},g.prototype.broadcastRect=function(){var t=this.contentRect_;return this.broadcastWidth=t.width,this.broadcastHeight=t.height,t};var w=function(t,e){var n=function(t){var e=t.x,n=t.y,r=t.width,i=t.height,o="undefined"!=typeof DOMRectReadOnly?DOMRectReadOnly:Object,a=Object.create(o.prototype);return f(a,{x:e,y:n,width:r,height:i,top:n,right:e+r,bottom:i+n,left:e}),a}(e);f(this,{target:t,contentRect:n})},_=function(t,e,r){if(this.activeObservations_=[],this.observations_=new n,"function"!=typeof t)throw new TypeError("The callback provided as parameter 1 is not a function.");this.callback_=t,this.controller_=e,this.callbackCtx_=r};_.prototype.observe=function(t){if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");if("undefined"!=typeof Element&&Element instanceof Object){if(!(t instanceof l(t).Element))throw new TypeError('parameter 1 is not of type "Element".');var e=this.observations_;e.has(t)||(e.set(t,new g(t)),this.controller_.addObserver(this),this.controller_.refresh())}},_.prototype.unobserve=function(t){if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");if("undefined"!=typeof Element&&Element instanceof Object){if(!(t instanceof l(t).Element))throw new TypeError('parameter 1 is not of type "Element".');var e=this.observations_;e.has(t)&&(e.delete(t),e.size||this.controller_.removeObserver(this))}},_.prototype.disconnect=function(){this.clearActive(),this.observations_.clear(),this.controller_.removeObserver(this)},_.prototype.gatherActive=function(){var t=this;this.clearActive(),this.observations_.forEach(function(e){e.isActive()&&t.activeObservations_.push(e)})},_.prototype.broadcastActive=function(){if(this.hasActive()){var t=this.callbackCtx_,e=this.activeObservations_.map(function(t){return new w(t.target,t.broadcastRect())});this.callback_.call(t,e,t),this.clearActive()}},_.prototype.clearActive=function(){this.activeObservations_.splice(0)},_.prototype.hasActive=function(){return this.activeObservations_.length>0};var O="undefined"!=typeof WeakMap?new WeakMap:new n,k=function(t){if(!(this instanceof k))throw new TypeError("Cannot call a class as a function.");if(!arguments.length)throw new TypeError("1 argument required, but only 0 present.");var e=c.getInstance(),n=new _(t,e,this);O.set(this,n)};["observe","unobserve","disconnect"].forEach(function(t){k.prototype[t]=function(){return(e=O.get(this))[t].apply(e,arguments);var e}});var E=void 0!==i.ResizeObserver?i.ResizeObserver:k;e.default=E}.call(this,n(17))},function(t,e){var n;n=function(){return this}();try{n=n||Function("return this")()||(0,eval)("this")}catch(t){"object"==typeof window&&(n=window)}t.exports=n},function(t,e,n){"use strict";function r(t){return"string"==typeof t&&(t=document.getElementById(t)),new Promise(function(e,n){if(r.check(t))return e(t);function i(r){t.removeEventListener("load",i),t.removeEventListener("error",i),"load"===r.type?e(t):n(t)}t.addEventListener("load",i),t.addEventListener("error",i)})}Object.defineProperty(e,"__esModule",{value:!0}),r.check=function(t){return!!t.complete&&0!==t.naturalWidth},e.default=r}]);
+var Jcrop = (() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // build/js/easing.js
+  var require_easing = __commonJS({
+    "build/js/easing.js"(exports, module) {
+      var m = module.exports = {
+        def: "outQuad",
+        swing: function(t, b, c, d) {
+          return m[m.def](t, b, c, d);
+        },
+        inQuad: function(t, b, c, d) {
+          return c * (t /= d) * t + b;
+        },
+        outQuad: function(t, b, c, d) {
+          return -c * (t /= d) * (t - 2) + b;
+        },
+        inOutQuad: function(t, b, c, d) {
+          if ((t /= d / 2) < 1)
+            return c / 2 * t * t + b;
+          return -c / 2 * (--t * (t - 2) - 1) + b;
+        },
+        inCubic: function(t, b, c, d) {
+          return c * (t /= d) * t * t + b;
+        },
+        outCubic: function(t, b, c, d) {
+          return c * ((t = t / d - 1) * t * t + 1) + b;
+        },
+        inOutCubic: function(t, b, c, d) {
+          if ((t /= d / 2) < 1)
+            return c / 2 * t * t * t + b;
+          return c / 2 * ((t -= 2) * t * t + 2) + b;
+        },
+        inQuart: function(t, b, c, d) {
+          return c * (t /= d) * t * t * t + b;
+        },
+        outQuart: function(t, b, c, d) {
+          return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+        },
+        inOutQuart: function(t, b, c, d) {
+          if ((t /= d / 2) < 1)
+            return c / 2 * t * t * t * t + b;
+          return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+        },
+        inQuint: function(t, b, c, d) {
+          return c * (t /= d) * t * t * t * t + b;
+        },
+        outQuint: function(t, b, c, d) {
+          return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+        },
+        inOutQuint: function(t, b, c, d) {
+          if ((t /= d / 2) < 1)
+            return c / 2 * t * t * t * t * t + b;
+          return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+        },
+        inSine: function(t, b, c, d) {
+          return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+        },
+        outSine: function(t, b, c, d) {
+          return c * Math.sin(t / d * (Math.PI / 2)) + b;
+        },
+        inOutSine: function(t, b, c, d) {
+          return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+        },
+        inExpo: function(t, b, c, d) {
+          return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+        },
+        outExpo: function(t, b, c, d) {
+          return t == d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+        },
+        inOutExpo: function(t, b, c, d) {
+          if (t == 0)
+            return b;
+          if (t == d)
+            return b + c;
+          if ((t /= d / 2) < 1)
+            return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+          return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+        },
+        inCirc: function(t, b, c, d) {
+          return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+        },
+        outCirc: function(t, b, c, d) {
+          return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+        },
+        inOutCirc: function(t, b, c, d) {
+          if ((t /= d / 2) < 1)
+            return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+          return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+        },
+        inElastic: function(t, b, c, d) {
+          var s = 1.70158;
+          var p = 0;
+          var a = c;
+          if (t == 0)
+            return b;
+          if ((t /= d) == 1)
+            return b + c;
+          if (!p)
+            p = d * 0.3;
+          if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+          } else
+            var s = p / (2 * Math.PI) * Math.asin(c / a);
+          return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+        },
+        outElastic: function(t, b, c, d) {
+          var s = 1.70158;
+          var p = 0;
+          var a = c;
+          if (t == 0)
+            return b;
+          if ((t /= d) == 1)
+            return b + c;
+          if (!p)
+            p = d * 0.3;
+          if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+          } else
+            var s = p / (2 * Math.PI) * Math.asin(c / a);
+          return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+        },
+        inOutElastic: function(t, b, c, d) {
+          var s = 1.70158;
+          var p = 0;
+          var a = c;
+          if (t == 0)
+            return b;
+          if ((t /= d / 2) == 2)
+            return b + c;
+          if (!p)
+            p = d * (0.3 * 1.5);
+          if (a < Math.abs(c)) {
+            a = c;
+            var s = p / 4;
+          } else
+            var s = p / (2 * Math.PI) * Math.asin(c / a);
+          if (t < 1)
+            return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+          return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
+        },
+        inBack: function(t, b, c, d, s) {
+          if (s == void 0)
+            s = 1.70158;
+          return c * (t /= d) * t * ((s + 1) * t - s) + b;
+        },
+        outBack: function(t, b, c, d, s) {
+          if (s == void 0)
+            s = 1.70158;
+          return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+        },
+        inOutBack: function(t, b, c, d, s) {
+          if (s == void 0)
+            s = 1.70158;
+          if ((t /= d / 2) < 1)
+            return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+          return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+        },
+        inBounce: function(t, b, c, d) {
+          return c - m.outBounce(d - t, 0, c, d) + b;
+        },
+        outBounce: function(t, b, c, d) {
+          if ((t /= d) < 1 / 2.75) {
+            return c * (7.5625 * t * t) + b;
+          } else if (t < 2 / 2.75) {
+            return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b;
+          } else if (t < 2.5 / 2.75) {
+            return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b;
+          } else {
+            return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
+          }
+        },
+        inOutBounce: function(t, b, c, d) {
+          if (t < d / 2)
+            return m.inBounce(t * 2, 0, c, d) * 0.5 + b;
+          return m.outBounce(t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b;
+        }
+      };
+    }
+  });
+
+  // build/js/jcrop.js
+  var jcrop_exports = {};
+  __export(jcrop_exports, {
+    DomObj: () => domobj_default,
+    Dragger: () => dragger_default,
+    Handle: () => handle_default,
+    Rect: () => rect_default,
+    Shade: () => shade_default,
+    Stage: () => dom_default,
+    Sticker: () => sticker_default,
+    Widget: () => widget_default,
+    attach: () => attach,
+    default: () => jcrop_default,
+    defaults: () => defaults_default,
+    easing: () => import_easing2.default,
+    load: () => loader_default
+  });
+
+  // build/js/util/extend.js
+  function extend() {
+    var extended = {};
+    for (let key in arguments) {
+      var argument = arguments[key];
+      for (let prop in argument) {
+        if (Object.prototype.hasOwnProperty.call(argument, prop)) {
+          extended[prop] = argument[prop];
+        }
+      }
+    }
+    return extended;
+  }
+
+  // build/js/defaults.js
+  var defaults_default = {
+    animateEasingFunction: "swing",
+    animateFrames: 30,
+    multi: false,
+    multiMax: null,
+    multiMin: 1,
+    cropperClass: "jcrop-widget",
+    disabledClass: "jcrop-disable",
+    canDrag: true,
+    canResize: true,
+    canSelect: true,
+    canRemove: true,
+    multiple: false,
+    autoFront: true,
+    active: true,
+    handles: ["n", "s", "e", "w", "sw", "nw", "ne", "se"],
+    shade: true,
+    shadeClass: "jcrop-shade",
+    shadeColor: "black",
+    shadeOpacity: 0.5,
+    widgetConstructor: null,
+    x: 0,
+    y: 0,
+    w: 100,
+    h: 100
+  };
+
+  // build/js/domobj.js
+  var DomObj = class {
+    constructor(el) {
+      if (typeof el === "string")
+        el = document.getElementById(el);
+      this.el = el;
+    }
+    appendTo(el) {
+      if (typeof el === "string")
+        el = document.getElementById(el);
+      el.appendChild(this.el);
+      return this;
+    }
+    emit(evname) {
+      const ev = document.createEvent("Event");
+      ev.initEvent(evname, true, true);
+      ev.cropTarget = this;
+      this.el.dispatchEvent(ev);
+    }
+    removeClass(cl) {
+      this.el.className = this.el.className.split(" ").filter((i) => cl !== i).join(" ");
+      return this;
+    }
+    hasClass(cl) {
+      return this.el.className.split(" ").filter((i) => cl === i).length;
+    }
+    addClass(cl) {
+      if (!this.hasClass(cl))
+        this.el.className += " " + cl;
+      return this;
+    }
+    listen(evname, handler) {
+      this.el.addEventListener(evname, (e) => handler(e.cropTarget, e));
+      return this;
+    }
+  };
+  var domobj_default = DomObj;
+
+  // build/js/handle.js
+  var Handle = class extends domobj_default {
+  };
+  Handle.create = function(clname) {
+    const el = document.createElement("div");
+    el.className = clname;
+    return new Handle(el);
+  };
+  var handle_default = Handle;
+
+  // build/js/dragger.js
+  var Dragger = function(el, startcb, movecb, donecb) {
+    var ox, oy;
+    if (typeof el === "string")
+      el = document.getElementById(el);
+    el.addEventListener("mousedown", start);
+    el.addEventListener("touchstart", start);
+    function start(e) {
+      const obj = e.type === "touchstart" ? e.touches[0] : e;
+      ox = obj.pageX;
+      oy = obj.pageY;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!startcb(ox, oy, obj))
+        return;
+      if (e.type === "mousedown") {
+        window.addEventListener("mousemove", move);
+        document.addEventListener("mouseup", done);
+      } else if (e.type === "touchstart") {
+        document.addEventListener("touchmove", move);
+        document.addEventListener("touchend", done);
+      }
+    }
+    function move(e) {
+      const obj = e.type === "touchmove" ? e.changedTouches[0] : e;
+      e.stopPropagation();
+      movecb(obj.pageX - ox, obj.pageY - oy);
+    }
+    function done(e) {
+      const obj = e.type === "touchend" ? e.changedTouches[0] : e;
+      if (obj.pageX && obj.pageY)
+        movecb(obj.pageX - ox, obj.pageY - oy);
+      document.removeEventListener("mouseup", done);
+      window.removeEventListener("mousemove", move);
+      document.removeEventListener("touchmove", move);
+      document.removeEventListener("touchend", done);
+      donecb();
+    }
+    function remove() {
+      el.removeEventListener("mousedown", start);
+      el.removeEventListener("touchstart", start);
+    }
+    return { remove };
+  };
+  var dragger_default = Dragger;
+
+  // build/js/rect.js
+  var Rect = class {
+    constructor() {
+      this.x = 0;
+      this.y = 0;
+      this.w = 0;
+      this.h = 0;
+    }
+    set x1(v) {
+      this.w = this.x2 - v;
+      this.x = v;
+    }
+    set y1(v) {
+      this.h = this.y2 - v;
+      this.y = v;
+    }
+    get x2() {
+      return this.x + this.w;
+    }
+    set x2(x) {
+      this.w = x - this.x;
+    }
+    get y2() {
+      return this.y + this.h;
+    }
+    get aspect() {
+      return this.w / this.h;
+    }
+    set y2(y) {
+      this.h = y - this.y;
+    }
+    round() {
+      return Rect.create(
+        Math.round(this.x),
+        Math.round(this.y),
+        Math.round(this.w),
+        Math.round(this.h)
+      );
+    }
+    normalize() {
+      const [x1, y1, x2, y2] = [
+        Math.min(this.x, this.x2),
+        Math.min(this.y, this.y2),
+        Math.max(this.x, this.x2),
+        Math.max(this.y, this.y2)
+      ];
+      return Rect.create(x1, y1, x2 - x1, y2 - y1);
+    }
+    rebound(w, h) {
+      const rect = this.normalize();
+      if (rect.x < 0)
+        rect.x = 0;
+      if (rect.y < 0)
+        rect.y = 0;
+      if (rect.x2 > w)
+        rect.x = w - rect.w;
+      if (rect.y2 > h)
+        rect.y = h - rect.h;
+      return rect;
+    }
+    scale(x, y) {
+      y = y || x;
+      return Rect.create(this.x * x, this.y * y, this.w * x, this.h * y);
+    }
+    unscale(x, y) {
+      y = y || x;
+      return Rect.create(this.x / x, this.y / y, this.w / x, this.h / y);
+    }
+    center(w, h) {
+      return Rect.create(
+        (w - this.w) / 2,
+        (h - this.h) / 2,
+        this.w,
+        this.h
+      );
+    }
+    toArray() {
+      return [this.x, this.y, this.w, this.h];
+    }
+  };
+  Rect.fromPoints = function(p1, p2) {
+    const [x1, y1, x2, y2] = [
+      Math.min(p1[0], p2[0]),
+      Math.min(p1[1], p2[1]),
+      Math.max(p1[0], p2[0]),
+      Math.max(p1[1], p2[1])
+    ];
+    return Rect.create(x1, y1, x2 - x1, y2 - y1);
+  };
+  Rect.create = function(x = 0, y = 0, w = 0, h = 0) {
+    const c = new Rect();
+    c.x = x;
+    c.y = y;
+    c.w = w;
+    c.h = h;
+    return c;
+  };
+  Rect.from = function(el) {
+    if (Array.isArray(el))
+      return Rect.fromArray(el);
+    const c = new Rect();
+    c.x = el.offsetLeft;
+    c.y = el.offsetTop;
+    c.w = el.offsetWidth;
+    c.h = el.offsetHeight;
+    return c;
+  };
+  Rect.fromArray = function(args) {
+    if (args.length === 4)
+      return Rect.create.apply(this, args);
+    else if (args.length === 2)
+      return Rect.fromPoints(args[0], args[1]);
+    else
+      throw new Error("fromArray method problem");
+  };
+  Rect.sizeOf = function(el, y) {
+    if (y)
+      return Rect.create(0, 0, el, y);
+    const c = new Rect();
+    c.w = el.offsetWidth;
+    c.h = el.offsetHeight;
+    return c;
+  };
+  Rect.getMax = function(w, h, aspect) {
+    if (w / h > aspect)
+      return [h * aspect, h];
+    else
+      return [w, w / aspect];
+  };
+  Rect.fromPoint = function(point, w, h, quad = "br") {
+    const c = new Rect();
+    c.x = point[0];
+    c.y = point[1];
+    switch (quad) {
+      case "br":
+        c.x2 = c.x + w;
+        c.y2 = c.y + h;
+        break;
+      case "bl":
+        c.x2 = c.x - w;
+        c.y2 = c.y + h;
+        break;
+      case "tl":
+        c.x2 = c.x - w;
+        c.y2 = c.y - h;
+        break;
+      case "tr":
+        c.x2 = c.x + w;
+        c.y2 = c.y - h;
+        break;
+    }
+    return c;
+  };
+  var rect_default = Rect;
+
+  // build/js/sticker.js
+  var Sticker = class {
+    constructor(rect, w, h, ord) {
+      this.sw = w;
+      this.sh = h;
+      this.rect = rect;
+      this.locked = this.getCornerPoint(this.getOppositeCorner(ord));
+      this.stuck = this.getCornerPoint(ord);
+    }
+    move(x, y) {
+      return rect_default.fromPoints(this.locked, this.translateStuckPoint(x, y));
+    }
+    getDragQuadrant(x, y) {
+      const relx = this.locked[0] - x;
+      const rely = this.locked[1] - y;
+      if (relx < 0 && rely < 0)
+        return "br";
+      else if (relx >= 0 && rely >= 0)
+        return "tl";
+      else if (relx < 0 && rely >= 0)
+        return "tr";
+      else
+        return "bl";
+    }
+    getMaxRect(x, y, aspect) {
+      return rect_default.getMax(
+        Math.abs(this.locked[0] - x),
+        Math.abs(this.locked[1] - y),
+        aspect
+      );
+    }
+    translateStuckPoint(ox, oy) {
+      const [xx, yy, sp] = this.stuck;
+      var x = xx === null ? sp : xx + ox;
+      var y = yy === null ? sp : yy + oy;
+      if (x > this.sw)
+        x = this.sw;
+      if (y > this.sh)
+        y = this.sh;
+      if (x < 0)
+        x = 0;
+      if (y < 0)
+        y = 0;
+      if (this.aspect) {
+        var [w, h] = this.getMaxRect(x, y, this.aspect);
+        var quad = this.getDragQuadrant(x, y);
+        var res = rect_default.fromPoint(this.locked, w, h, quad);
+        return [res.x2, res.y2];
+      }
+      return [x, y];
+    }
+    getCornerPoint(h) {
+      const p = this.rect;
+      switch (h) {
+        case "n":
+          return [null, p.y, p.x];
+        case "s":
+          return [null, p.y2, p.x2];
+        case "e":
+          return [p.x2, null, p.y2];
+        case "w":
+          return [p.x, null, p.y];
+        case "se":
+          return [p.x2, p.y2];
+        case "sw":
+          return [p.x, p.y2];
+        case "ne":
+          return [p.x2, p.y];
+        case "nw":
+          return [p.x, p.y];
+      }
+    }
+    getOppositeCorner(h) {
+      switch (h) {
+        case "n":
+          return "se";
+        case "s":
+          return "nw";
+        case "e":
+          return "nw";
+        case "w":
+          return "se";
+        case "se":
+          return "nw";
+        case "sw":
+          return "ne";
+        case "ne":
+          return "sw";
+        case "nw":
+          return "se";
+      }
+    }
+  };
+  Sticker.create = function(rect, w, h, ord) {
+    return new Sticker(rect, w, h, ord);
+  };
+  var sticker_default = Sticker;
+
+  // build/js/confobj.js
+  var ConfObj = class extends domobj_default {
+    constructor(el, options = {}) {
+      super(el);
+      this.options = {};
+      Object.defineProperty(this, "_optconf", {
+        configurable: false,
+        enumerable: false,
+        value: {},
+        writable: true
+      });
+      this.initOptions();
+      this.setOptions(extend({}, defaults_default, options));
+    }
+    setOptions(options) {
+      this.options = extend({}, this.options, options);
+      Object.keys(options).forEach((key) => {
+        if (this._optconf[key])
+          this._optconf[key](options[key]);
+      });
+      return this;
+    }
+    initOptions() {
+    }
+  };
+  var confobj_default = ConfObj;
+
+  // build/js/keyboard.js
+  var Keyboard = class {
+    constructor(widget) {
+      this.widget = widget;
+      this.attach();
+    }
+    attach() {
+      const c = this.widget;
+      c.el.addEventListener("keydown", (e) => {
+        const d = e.shiftKey ? 10 : 1;
+        switch (e.key) {
+          case "ArrowRight":
+            c.nudge(d);
+            break;
+          case "ArrowLeft":
+            c.nudge(-d);
+            break;
+          case "ArrowUp":
+            c.nudge(0, -d);
+            break;
+          case "ArrowDown":
+            c.nudge(0, d);
+            break;
+          case "Delete":
+          case "Backspace":
+            c.stage.removeWidget(c);
+            break;
+          default:
+            return;
+        }
+        e.preventDefault();
+      });
+    }
+  };
+  Keyboard.attach = function(widget) {
+    return new Keyboard(widget);
+  };
+  var keyboard_default = Keyboard;
+
+  // build/js/animate.js
+  var import_easing = __toESM(require_easing());
+  function Animate(el, from, to, cb, frames = 30, efunc = "swing") {
+    const p = ["x", "y", "w", "h"];
+    const cur = from.normalize();
+    efunc = typeof efunc === "string" ? import_easing.default[efunc] : efunc;
+    var curFrame = 0;
+    return new Promise((resolve, reject) => {
+      function step() {
+        if (curFrame < frames) {
+          p.forEach((key) => {
+            cur[key] = Math.round(efunc(curFrame, from[key], to[key] - from[key], frames));
+          });
+          cb(cur);
+          curFrame++;
+          requestAnimationFrame(step);
+        } else {
+          cb(to);
+          resolve();
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  var animate_default = Animate;
+
+  // build/js/widget.js
+  var Widget = class extends confobj_default {
+    constructor(el, options = {}) {
+      super(el, options);
+      this.pos = rect_default.from(this.el);
+      this.init();
+    }
+    init() {
+      this.createHandles();
+      this.createMover();
+      this.attachFocus();
+      keyboard_default.attach(this);
+      return this;
+    }
+    initOptions() {
+      this._optconf["aspectRatio"] = (ar) => {
+        const p = this.pos;
+        this.aspect = ar || null;
+        if (this.aspect && p) {
+          var [w, h] = rect_default.getMax(p.w, p.h, ar);
+          this.render(rect_default.fromPoint([p.x, p.y], w, h));
+        }
+      };
+    }
+    attachToStage(stage) {
+      this.stage = stage;
+      this.emit("crop.attach");
+    }
+    attachFocus() {
+      this.el.addEventListener("focus", (e) => {
+        this.stage.activate(this);
+        this.emit("crop.update");
+      }, false);
+    }
+    animate(rect, frames, efunc) {
+      const t = this;
+      efunc = efunc || t.options.animateEasingFunction || "swing";
+      frames = frames || t.options.animateFrames || 30;
+      return animate_default(t.el, t.pos, rect, (r) => t.render(r.normalize()), frames, efunc).then(() => this.emit("crop.change"));
+    }
+    createMover() {
+      var w, h;
+      this.pos = rect_default.from(this.el);
+      var stick;
+      dragger_default(
+        this.el,
+        () => {
+          const pe = this.el.parentElement;
+          if (!this.stage.enabled)
+            return false;
+          [w, h] = [pe.offsetWidth, pe.offsetHeight];
+          stick = rect_default.from(this.el);
+          this.el.focus();
+          this.stage.activate(this);
+          return true;
+        },
+        (x, y) => {
+          this.pos.x = stick.x + x;
+          this.pos.y = stick.y + y;
+          this.render(this.pos.rebound(w, h));
+        },
+        () => {
+          this.emit("crop.change");
+        }
+      );
+    }
+    nudge(x = 0, y = 0) {
+      const pe = this.el.parentElement;
+      const [w, h] = [pe.offsetWidth, pe.offsetHeight];
+      if (x)
+        this.pos.x += x;
+      if (y)
+        this.pos.y += y;
+      this.render(this.pos.rebound(w, h));
+      this.emit("crop.change");
+    }
+    createHandles() {
+      this.options.handles.forEach((c) => {
+        const handle = handle_default.create("jcrop-handle " + c);
+        handle.appendTo(this.el);
+        var stick;
+        dragger_default(
+          handle.el,
+          () => {
+            if (!this.stage.enabled)
+              return false;
+            const pe = this.el.parentElement;
+            const w = pe.offsetWidth;
+            const h = pe.offsetHeight;
+            stick = sticker_default.create(rect_default.from(this.el), w, h, c);
+            if (this.aspect)
+              stick.aspect = this.aspect;
+            this.el.focus();
+            this.emit("crop.active");
+            return true;
+          },
+          (x, y) => this.render(stick.move(x, y)),
+          () => {
+            this.emit("crop.change");
+          }
+        );
+      });
+      return this;
+    }
+    isActive() {
+      return this.stage && this.stage.active === this;
+    }
+    get sel() {
+      const s = this.stage;
+      return this.pos.scale(s.scalex, s.scaley);
+    }
+    render(r) {
+      r = r || this.pos;
+      this.el.style.top = Math.round(r.y) + "px";
+      this.el.style.left = Math.round(r.x) + "px";
+      this.el.style.width = Math.round(r.w) + "px";
+      this.el.style.height = Math.round(r.h) + "px";
+      this.pos = r;
+      this.emit("crop.update");
+      return this;
+    }
+    doneDragging() {
+      this.pos = rect_default.from(this.el);
+    }
+  };
+  Widget.create = function(options = {}) {
+    const el = document.createElement("div");
+    const opts = extend({}, defaults_default, options);
+    el.setAttribute("tabindex", "0");
+    el.className = opts.cropperClass || "jcrop-widget";
+    return new (options.widgetConstructor || Widget)(el, opts);
+  };
+  var widget_default = Widget;
+
+  // build/js/shade.js
+  var Manager = class {
+    constructor(el) {
+      if (typeof el === "string")
+        el = document.getElementById(el);
+      this.el = el;
+      this.shades = {};
+    }
+    init(options = {}) {
+      this.active = options.shade !== void 0 ? options.shade : true;
+      this.keys().forEach(
+        (key) => {
+          this.shades[key] = Shade.create(options, key);
+        }
+      );
+      this.el.addEventListener("crop.update", (e) => {
+        if (e.cropTarget.isActive() && e.cropTarget.options.shade) {
+          this.adjust(e.cropTarget.pos);
+        }
+      }, false);
+      this.enable();
+    }
+    adjust(rect) {
+      const f = rect_default.from(this.el);
+      const s = this.shades;
+      s.t.h = rect.y;
+      s.b.h = f.h - rect.y2;
+      s.t.w = s.b.w = Math.floor(rect.w);
+      s.l.w = s.t.x = s.b.x = Math.ceil(rect.x);
+      s.r.w = f.w - (Math.ceil(rect.x) + Math.floor(rect.w));
+    }
+    keys() {
+      return ["t", "l", "r", "b"];
+    }
+    enable() {
+      const s = this.shades;
+      this.keys().forEach((key) => s[key].insert(this.el));
+    }
+    disable() {
+      const s = this.shades;
+      this.keys().forEach((key) => s[key].remove());
+    }
+    setStyle(color, opacity) {
+      const s = this.shades;
+      this.keys().forEach((key) => s[key].color(color).opacity(opacity));
+    }
+  };
+  Manager.attach = function(i) {
+    const el = i.el;
+    const m = new Manager(el);
+    m.init(i.options);
+    i.shades = m;
+    i._optconf["shade"] = (v) => i.updateShades();
+    i._optconf["shadeColor"] = (v) => m.setStyle(v);
+    i._optconf["shadeOpacity"] = (v) => m.setStyle(null, v);
+    return m;
+  };
+  var Shade = class extends domobj_default {
+    insert(el) {
+      el.appendChild(this.el);
+    }
+    remove() {
+      this.el.remove();
+    }
+    set w(w) {
+      this.el.style.width = w + "px";
+    }
+    set h(h) {
+      this.el.style.height = h + "px";
+    }
+    set x(l) {
+      this.el.style.left = l + "px";
+    }
+    color(c) {
+      if (c)
+        this.el.style.backgroundColor = c;
+      return this;
+    }
+    opacity(o) {
+      if (o)
+        this.el.style.opacity = o;
+      return this;
+    }
+  };
+  Shade.create = function(o, key) {
+    const el = document.createElement("div");
+    const clname = o.shadeClass || "jcrop-shade";
+    el.className = `${clname} ${key}`;
+    const obj = new Shade(el);
+    return obj.color(o.shadeColor).opacity(o.shadeOpacity);
+  };
+  Shade.Manager = Manager;
+  var shade_default = Shade;
+
+  // build/js/stage/dom.js
+  var Stage = class extends confobj_default {
+    constructor(el, options) {
+      super(el, options);
+      this.scalex = 1;
+      this.scaley = 1;
+      this.crops = /* @__PURE__ */ new Set();
+      this.active = null;
+      this.enabled = true;
+      this.init();
+    }
+    init() {
+      this.initStageDrag();
+      shade_default.Manager.attach(this);
+    }
+    initOptions() {
+      this._optconf["multi"] = (v) => {
+        if (!v)
+          this.limitWidgets();
+      };
+    }
+    setEnabled(v = true) {
+      const clname = this.options.disabledClass || "jcrop-disable";
+      this[v ? "removeClass" : "addClass"](clname);
+      this.enabled = !!v;
+      return this;
+    }
+    focus() {
+      if (!this.enabled)
+        return false;
+      if (this.active)
+        this.active.el.focus();
+      else
+        this.el.focus();
+      return this;
+    }
+    limitWidgets(n = 1) {
+      if (!this.crops || n < 1)
+        return false;
+      const crops = Array.from(this.crops);
+      while (crops.length > n)
+        this.removeWidget(crops.shift());
+      return this;
+    }
+    canCreate() {
+      const n = this.crops.size;
+      const o = this.options;
+      if (!this.enabled)
+        return false;
+      if (o.multiMax !== null && n >= o.multiMax)
+        return false;
+      if (!o.multi && n >= o.multiMin)
+        return false;
+      return true;
+    }
+    canRemove() {
+      const n = this.crops.size;
+      const o = this.options;
+      if (!this.enabled)
+        return false;
+      if (this.active && !this.active.options.canRemove)
+        return false;
+      if (!o.canRemove || n <= o.multiMin)
+        return false;
+      return true;
+    }
+    initStageDrag() {
+      var crop, pos, w, h, stick;
+      dragger_default(
+        this.el,
+        (x, y, e) => {
+          if (!this.canCreate())
+            return false;
+          crop = (this.options.widgetConstructor || widget_default).create(this.options);
+          pos = crop.pos;
+          pos.x = e.pageX - this.el.offsetParent.offsetLeft - this.el.offsetLeft;
+          pos.y = e.pageY - this.el.offsetParent.offsetTop - this.el.offsetTop;
+          w = this.el.offsetWidth;
+          h = this.el.offsetHeight;
+          this.addWidget(crop);
+          stick = sticker_default.create(pos, w, h, "se");
+          if (this.options.aspectRatio)
+            stick.aspect = this.options.aspectRatio;
+          crop.render(pos);
+          this.focus();
+          return true;
+        },
+        (x, y) => {
+          crop.render(stick.move(x, y));
+        },
+        () => {
+          crop.emit("crop.change");
+        }
+      );
+    }
+    reorderWidgets() {
+      var z = 10;
+      this.crops.forEach((crop) => {
+        crop.el.style.zIndex = z++;
+        if (this.active === crop)
+          crop.addClass("active");
+        else
+          crop.removeClass("active");
+      });
+      this.refresh();
+    }
+    activate(widget) {
+      if (!this.enabled)
+        return this;
+      widget = widget || Array.from(this.crops).pop();
+      if (widget) {
+        if (this.active === widget)
+          return;
+        this.active = widget;
+        this.crops.delete(widget);
+        this.crops.add(widget);
+        this.reorderWidgets();
+        this.active.el.focus();
+        this.options.shade && this.shades.enable();
+        widget.emit("crop.activate");
+      } else {
+        this.shades.disable();
+      }
+      return this;
+    }
+    addWidget(widget) {
+      widget.attachToStage(this);
+      widget.appendTo(this.el);
+      this.activate(widget);
+      return this;
+    }
+    newWidget(rect, options = {}) {
+      options = extend({}, this.options, options);
+      const crop = (this.options.widgetConstructor || widget_default).create(options);
+      crop.render(rect.unscale(this.scalex, this.scaley));
+      this.addWidget(crop);
+      crop.el.focus();
+      return crop;
+    }
+    removeWidget(widget) {
+      if (!this.canRemove())
+        return false;
+      widget.emit("crop.remove");
+      widget.el.remove();
+      this.crops.delete(widget);
+      this.activate();
+    }
+    refresh() {
+      this.crops.forEach((crop) => {
+        crop.render();
+      });
+      this.options.shade && this.active && this.shades.adjust(this.active.pos);
+    }
+    updateShades() {
+      if (!this.shades)
+        return;
+      if (this.options.shade)
+        this.shades.enable();
+      else
+        this.shades.disable();
+      this.options.shade && this.active && this.shades.adjust(this.active.pos);
+      return this;
+    }
+    setOptions(options = {}) {
+      super.setOptions(options);
+      if (this.crops)
+        Array.from(this.crops).forEach((i) => i.setOptions(options));
+    }
+    destroy() {
+    }
+  };
+  var dom_default = Stage;
+
+  // node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js
+  var MapShim = function() {
+    if (typeof Map !== "undefined") {
+      return Map;
+    }
+    function getIndex(arr, key) {
+      var result = -1;
+      arr.some(function(entry, index2) {
+        if (entry[0] === key) {
+          result = index2;
+          return true;
+        }
+        return false;
+      });
+      return result;
+    }
+    return function() {
+      function class_1() {
+        this.__entries__ = [];
+      }
+      Object.defineProperty(class_1.prototype, "size", {
+        get: function() {
+          return this.__entries__.length;
+        },
+        enumerable: true,
+        configurable: true
+      });
+      class_1.prototype.get = function(key) {
+        var index2 = getIndex(this.__entries__, key);
+        var entry = this.__entries__[index2];
+        return entry && entry[1];
+      };
+      class_1.prototype.set = function(key, value) {
+        var index2 = getIndex(this.__entries__, key);
+        if (~index2) {
+          this.__entries__[index2][1] = value;
+        } else {
+          this.__entries__.push([key, value]);
+        }
+      };
+      class_1.prototype.delete = function(key) {
+        var entries = this.__entries__;
+        var index2 = getIndex(entries, key);
+        if (~index2) {
+          entries.splice(index2, 1);
+        }
+      };
+      class_1.prototype.has = function(key) {
+        return !!~getIndex(this.__entries__, key);
+      };
+      class_1.prototype.clear = function() {
+        this.__entries__.splice(0);
+      };
+      class_1.prototype.forEach = function(callback, ctx) {
+        if (ctx === void 0) {
+          ctx = null;
+        }
+        for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
+          var entry = _a[_i];
+          callback.call(ctx, entry[1], entry[0]);
+        }
+      };
+      return class_1;
+    }();
+  }();
+  var isBrowser = typeof window !== "undefined" && typeof document !== "undefined" && window.document === document;
+  var global$1 = function() {
+    if (typeof global !== "undefined" && global.Math === Math) {
+      return global;
+    }
+    if (typeof self !== "undefined" && self.Math === Math) {
+      return self;
+    }
+    if (typeof window !== "undefined" && window.Math === Math) {
+      return window;
+    }
+    return Function("return this")();
+  }();
+  var requestAnimationFrame$1 = function() {
+    if (typeof requestAnimationFrame === "function") {
+      return requestAnimationFrame.bind(global$1);
+    }
+    return function(callback) {
+      return setTimeout(function() {
+        return callback(Date.now());
+      }, 1e3 / 60);
+    };
+  }();
+  var trailingTimeout = 2;
+  function throttle(callback, delay) {
+    var leadingCall = false, trailingCall = false, lastCallTime = 0;
+    function resolvePending() {
+      if (leadingCall) {
+        leadingCall = false;
+        callback();
+      }
+      if (trailingCall) {
+        proxy();
+      }
+    }
+    function timeoutCallback() {
+      requestAnimationFrame$1(resolvePending);
+    }
+    function proxy() {
+      var timeStamp = Date.now();
+      if (leadingCall) {
+        if (timeStamp - lastCallTime < trailingTimeout) {
+          return;
+        }
+        trailingCall = true;
+      } else {
+        leadingCall = true;
+        trailingCall = false;
+        setTimeout(timeoutCallback, delay);
+      }
+      lastCallTime = timeStamp;
+    }
+    return proxy;
+  }
+  var REFRESH_DELAY = 20;
+  var transitionKeys = ["top", "right", "bottom", "left", "width", "height", "size", "weight"];
+  var mutationObserverSupported = typeof MutationObserver !== "undefined";
+  var ResizeObserverController = function() {
+    function ResizeObserverController2() {
+      this.connected_ = false;
+      this.mutationEventsAdded_ = false;
+      this.mutationsObserver_ = null;
+      this.observers_ = [];
+      this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
+      this.refresh = throttle(this.refresh.bind(this), REFRESH_DELAY);
+    }
+    ResizeObserverController2.prototype.addObserver = function(observer) {
+      if (!~this.observers_.indexOf(observer)) {
+        this.observers_.push(observer);
+      }
+      if (!this.connected_) {
+        this.connect_();
+      }
+    };
+    ResizeObserverController2.prototype.removeObserver = function(observer) {
+      var observers2 = this.observers_;
+      var index2 = observers2.indexOf(observer);
+      if (~index2) {
+        observers2.splice(index2, 1);
+      }
+      if (!observers2.length && this.connected_) {
+        this.disconnect_();
+      }
+    };
+    ResizeObserverController2.prototype.refresh = function() {
+      var changesDetected = this.updateObservers_();
+      if (changesDetected) {
+        this.refresh();
+      }
+    };
+    ResizeObserverController2.prototype.updateObservers_ = function() {
+      var activeObservers = this.observers_.filter(function(observer) {
+        return observer.gatherActive(), observer.hasActive();
+      });
+      activeObservers.forEach(function(observer) {
+        return observer.broadcastActive();
+      });
+      return activeObservers.length > 0;
+    };
+    ResizeObserverController2.prototype.connect_ = function() {
+      if (!isBrowser || this.connected_) {
+        return;
+      }
+      document.addEventListener("transitionend", this.onTransitionEnd_);
+      window.addEventListener("resize", this.refresh);
+      if (mutationObserverSupported) {
+        this.mutationsObserver_ = new MutationObserver(this.refresh);
+        this.mutationsObserver_.observe(document, {
+          attributes: true,
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+      } else {
+        document.addEventListener("DOMSubtreeModified", this.refresh);
+        this.mutationEventsAdded_ = true;
+      }
+      this.connected_ = true;
+    };
+    ResizeObserverController2.prototype.disconnect_ = function() {
+      if (!isBrowser || !this.connected_) {
+        return;
+      }
+      document.removeEventListener("transitionend", this.onTransitionEnd_);
+      window.removeEventListener("resize", this.refresh);
+      if (this.mutationsObserver_) {
+        this.mutationsObserver_.disconnect();
+      }
+      if (this.mutationEventsAdded_) {
+        document.removeEventListener("DOMSubtreeModified", this.refresh);
+      }
+      this.mutationsObserver_ = null;
+      this.mutationEventsAdded_ = false;
+      this.connected_ = false;
+    };
+    ResizeObserverController2.prototype.onTransitionEnd_ = function(_a) {
+      var _b = _a.propertyName, propertyName = _b === void 0 ? "" : _b;
+      var isReflowProperty = transitionKeys.some(function(key) {
+        return !!~propertyName.indexOf(key);
+      });
+      if (isReflowProperty) {
+        this.refresh();
+      }
+    };
+    ResizeObserverController2.getInstance = function() {
+      if (!this.instance_) {
+        this.instance_ = new ResizeObserverController2();
+      }
+      return this.instance_;
+    };
+    ResizeObserverController2.instance_ = null;
+    return ResizeObserverController2;
+  }();
+  var defineConfigurable = function(target, props) {
+    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+      var key = _a[_i];
+      Object.defineProperty(target, key, {
+        value: props[key],
+        enumerable: false,
+        writable: false,
+        configurable: true
+      });
+    }
+    return target;
+  };
+  var getWindowOf = function(target) {
+    var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
+    return ownerGlobal || global$1;
+  };
+  var emptyRect = createRectInit(0, 0, 0, 0);
+  function toFloat(value) {
+    return parseFloat(value) || 0;
+  }
+  function getBordersSize(styles) {
+    var positions = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+      positions[_i - 1] = arguments[_i];
+    }
+    return positions.reduce(function(size, position) {
+      var value = styles["border-" + position + "-width"];
+      return size + toFloat(value);
+    }, 0);
+  }
+  function getPaddings(styles) {
+    var positions = ["top", "right", "bottom", "left"];
+    var paddings = {};
+    for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
+      var position = positions_1[_i];
+      var value = styles["padding-" + position];
+      paddings[position] = toFloat(value);
+    }
+    return paddings;
+  }
+  function getSVGContentRect(target) {
+    var bbox = target.getBBox();
+    return createRectInit(0, 0, bbox.width, bbox.height);
+  }
+  function getHTMLElementContentRect(target) {
+    var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
+    if (!clientWidth && !clientHeight) {
+      return emptyRect;
+    }
+    var styles = getWindowOf(target).getComputedStyle(target);
+    var paddings = getPaddings(styles);
+    var horizPad = paddings.left + paddings.right;
+    var vertPad = paddings.top + paddings.bottom;
+    var width = toFloat(styles.width), height = toFloat(styles.height);
+    if (styles.boxSizing === "border-box") {
+      if (Math.round(width + horizPad) !== clientWidth) {
+        width -= getBordersSize(styles, "left", "right") + horizPad;
+      }
+      if (Math.round(height + vertPad) !== clientHeight) {
+        height -= getBordersSize(styles, "top", "bottom") + vertPad;
+      }
+    }
+    if (!isDocumentElement(target)) {
+      var vertScrollbar = Math.round(width + horizPad) - clientWidth;
+      var horizScrollbar = Math.round(height + vertPad) - clientHeight;
+      if (Math.abs(vertScrollbar) !== 1) {
+        width -= vertScrollbar;
+      }
+      if (Math.abs(horizScrollbar) !== 1) {
+        height -= horizScrollbar;
+      }
+    }
+    return createRectInit(paddings.left, paddings.top, width, height);
+  }
+  var isSVGGraphicsElement = function() {
+    if (typeof SVGGraphicsElement !== "undefined") {
+      return function(target) {
+        return target instanceof getWindowOf(target).SVGGraphicsElement;
+      };
+    }
+    return function(target) {
+      return target instanceof getWindowOf(target).SVGElement && typeof target.getBBox === "function";
+    };
+  }();
+  function isDocumentElement(target) {
+    return target === getWindowOf(target).document.documentElement;
+  }
+  function getContentRect(target) {
+    if (!isBrowser) {
+      return emptyRect;
+    }
+    if (isSVGGraphicsElement(target)) {
+      return getSVGContentRect(target);
+    }
+    return getHTMLElementContentRect(target);
+  }
+  function createReadOnlyRect(_a) {
+    var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
+    var Constr = typeof DOMRectReadOnly !== "undefined" ? DOMRectReadOnly : Object;
+    var rect = Object.create(Constr.prototype);
+    defineConfigurable(rect, {
+      x,
+      y,
+      width,
+      height,
+      top: y,
+      right: x + width,
+      bottom: height + y,
+      left: x
+    });
+    return rect;
+  }
+  function createRectInit(x, y, width, height) {
+    return { x, y, width, height };
+  }
+  var ResizeObservation = function() {
+    function ResizeObservation2(target) {
+      this.broadcastWidth = 0;
+      this.broadcastHeight = 0;
+      this.contentRect_ = createRectInit(0, 0, 0, 0);
+      this.target = target;
+    }
+    ResizeObservation2.prototype.isActive = function() {
+      var rect = getContentRect(this.target);
+      this.contentRect_ = rect;
+      return rect.width !== this.broadcastWidth || rect.height !== this.broadcastHeight;
+    };
+    ResizeObservation2.prototype.broadcastRect = function() {
+      var rect = this.contentRect_;
+      this.broadcastWidth = rect.width;
+      this.broadcastHeight = rect.height;
+      return rect;
+    };
+    return ResizeObservation2;
+  }();
+  var ResizeObserverEntry = function() {
+    function ResizeObserverEntry2(target, rectInit) {
+      var contentRect = createReadOnlyRect(rectInit);
+      defineConfigurable(this, { target, contentRect });
+    }
+    return ResizeObserverEntry2;
+  }();
+  var ResizeObserverSPI = function() {
+    function ResizeObserverSPI2(callback, controller, callbackCtx) {
+      this.activeObservations_ = [];
+      this.observations_ = new MapShim();
+      if (typeof callback !== "function") {
+        throw new TypeError("The callback provided as parameter 1 is not a function.");
+      }
+      this.callback_ = callback;
+      this.controller_ = controller;
+      this.callbackCtx_ = callbackCtx;
+    }
+    ResizeObserverSPI2.prototype.observe = function(target) {
+      if (!arguments.length) {
+        throw new TypeError("1 argument required, but only 0 present.");
+      }
+      if (typeof Element === "undefined" || !(Element instanceof Object)) {
+        return;
+      }
+      if (!(target instanceof getWindowOf(target).Element)) {
+        throw new TypeError('parameter 1 is not of type "Element".');
+      }
+      var observations = this.observations_;
+      if (observations.has(target)) {
+        return;
+      }
+      observations.set(target, new ResizeObservation(target));
+      this.controller_.addObserver(this);
+      this.controller_.refresh();
+    };
+    ResizeObserverSPI2.prototype.unobserve = function(target) {
+      if (!arguments.length) {
+        throw new TypeError("1 argument required, but only 0 present.");
+      }
+      if (typeof Element === "undefined" || !(Element instanceof Object)) {
+        return;
+      }
+      if (!(target instanceof getWindowOf(target).Element)) {
+        throw new TypeError('parameter 1 is not of type "Element".');
+      }
+      var observations = this.observations_;
+      if (!observations.has(target)) {
+        return;
+      }
+      observations.delete(target);
+      if (!observations.size) {
+        this.controller_.removeObserver(this);
+      }
+    };
+    ResizeObserverSPI2.prototype.disconnect = function() {
+      this.clearActive();
+      this.observations_.clear();
+      this.controller_.removeObserver(this);
+    };
+    ResizeObserverSPI2.prototype.gatherActive = function() {
+      var _this = this;
+      this.clearActive();
+      this.observations_.forEach(function(observation) {
+        if (observation.isActive()) {
+          _this.activeObservations_.push(observation);
+        }
+      });
+    };
+    ResizeObserverSPI2.prototype.broadcastActive = function() {
+      if (!this.hasActive()) {
+        return;
+      }
+      var ctx = this.callbackCtx_;
+      var entries = this.activeObservations_.map(function(observation) {
+        return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+      });
+      this.callback_.call(ctx, entries, ctx);
+      this.clearActive();
+    };
+    ResizeObserverSPI2.prototype.clearActive = function() {
+      this.activeObservations_.splice(0);
+    };
+    ResizeObserverSPI2.prototype.hasActive = function() {
+      return this.activeObservations_.length > 0;
+    };
+    return ResizeObserverSPI2;
+  }();
+  var observers = typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : new MapShim();
+  var ResizeObserver = function() {
+    function ResizeObserver2(callback) {
+      if (!(this instanceof ResizeObserver2)) {
+        throw new TypeError("Cannot call a class as a function.");
+      }
+      if (!arguments.length) {
+        throw new TypeError("1 argument required, but only 0 present.");
+      }
+      var controller = ResizeObserverController.getInstance();
+      var observer = new ResizeObserverSPI(callback, controller, this);
+      observers.set(this, observer);
+    }
+    return ResizeObserver2;
+  }();
+  [
+    "observe",
+    "unobserve",
+    "disconnect"
+  ].forEach(function(method) {
+    ResizeObserver.prototype[method] = function() {
+      var _a;
+      return (_a = observers.get(this))[method].apply(_a, arguments);
+    };
+  });
+  var index = function() {
+    if (typeof global$1.ResizeObserver !== "undefined") {
+      return global$1.ResizeObserver;
+    }
+    return ResizeObserver;
+  }();
+  var ResizeObserver_es_default = index;
+
+  // build/js/stage/image.js
+  function div(clname, el = document.createElement("div")) {
+    el.className = clname;
+    return el;
+  }
+  var ImageStage = class extends dom_default {
+    constructor(el, options) {
+      const wrapper = div("jcrop-stage jcrop-image-stage");
+      el.parentNode.insertBefore(wrapper, el);
+      super(wrapper, options);
+      this.srcEl = el;
+      el.onload = this.resizeToImage.bind(this);
+      this.resizeToImage();
+      this.initResizeObserver();
+    }
+    initResizeObserver() {
+      const ro = new ResizeObserver_es_default((entries, observer) => {
+        this.resizeToImage();
+      });
+      ro.observe(this.srcEl);
+    }
+    resizeToImage() {
+      const [w, h] = this.getImageDimensions();
+      const [nw, nh] = this.getNaturalDimensions();
+      this.el.style.width = w + "px";
+      this.el.style.height = h + "px";
+      this.rescaleWidgets(w / nw, h / nh);
+      this.scalex = nw / w;
+      this.scaley = nh / h;
+      this.refresh();
+    }
+    rescaleWidgets(x, y) {
+      this.crops.forEach((crop) => {
+        crop.pos = crop.sel.scale(x, y);
+      });
+    }
+    getImageDimensions() {
+      return [this.srcEl.width, this.srcEl.height];
+    }
+    getNaturalDimensions() {
+      return [
+        this.srcEl.naturalWidth || this.srcEl.width,
+        this.srcEl.naturalHeight || this.srcEl.height
+      ];
+    }
+    destroy() {
+      this.el.remove();
+    }
+  };
+  var image_default = ImageStage;
+
+  // build/js/jcrop.js
+  var import_easing2 = __toESM(require_easing());
+
+  // build/js/loader.js
+  function Loader(img) {
+    if (typeof img === "string")
+      img = document.getElementById(img);
+    return new Promise(function(resolve, reject) {
+      if (Loader.check(img))
+        return resolve(img);
+      function handler(e) {
+        img.removeEventListener("load", handler);
+        img.removeEventListener("error", handler);
+        e.type === "load" ? resolve(img) : reject(img);
+      }
+      img.addEventListener("load", handler);
+      img.addEventListener("error", handler);
+    });
+  }
+  Loader.check = function(img) {
+    if (!img.complete)
+      return false;
+    if (img.naturalWidth === 0)
+      return false;
+    return true;
+  };
+  var loader_default = Loader;
+
+  // build/js/jcrop.js
+  function attach(el, options = {}) {
+    options = extend({}, defaults_default, options);
+    if (typeof el === "string")
+      el = document.getElementById(el);
+    if (el.tagName === "IMG")
+      return new image_default(el, options);
+    return new dom_default(el, options);
+  }
+  var jcrop_default = { Stage: dom_default, defaults: defaults_default, Dragger: dragger_default, Widget: widget_default, Rect: rect_default, Handle: handle_default, Sticker: sticker_default, easing: import_easing2.default, load: loader_default, attach, Shade: shade_default, DomObj: domobj_default };
+  return __toCommonJS(jcrop_exports);
+})();
 //# sourceMappingURL=jcrop.js.map
