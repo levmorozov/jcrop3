@@ -1,8 +1,9 @@
 {
   "name": "jcrop3",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "The Javascript cropping widget",
   "keywords": ["jcrop", "crop", "image crop", "tapmodo"],
+  "homepage": "https://github.com/levmv/jcrop3",
   "main": "build/js/jcrop.js",
   "unpkg": "dist/jcrop.js",
   "scripts": {
